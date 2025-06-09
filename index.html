@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Conversor de Moedas</title>
+</head>
+<body>
+  <h2>Conversor de Moedas</h2>
+  <input type="number" id="valor" placeholder="Valor em BRL">
+  <select id="moeda">
+    <option value="USD">Dólar</option>
+    <option value="EUR">Euro</option>
+    <option value="ARS">Peso Argentino</option>
+  </select>
+  <button onclick="converter()">Converter</button>
+  <p id="resultado"></p>
+
+  <script>
+    async function converter() {
+      const valor = document.getElementById("valor").value;
+      const moeda = document.getElementById("moeda").value;
+
+      const res = await fetch(`https://api.exchangerate.host/latest?base=BRL`);
+      const data = await res.json();
+      const taxa = data.rates[moeda];
+      const resultado = valor * taxa;
+
+      document.getElementById("resultado").innerText = 
+        `R$${valor} = ${moeda} ${resultado.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
